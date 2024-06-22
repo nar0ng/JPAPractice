@@ -21,7 +21,7 @@ public class DataSourceConfig {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUrl("jdbc:h2~/test");
+        dataSource.setUrl("jdbc:h2:mem:test");
         dataSource.setUsername("sa");
         dataSource.setPassword("");
 
@@ -39,7 +39,7 @@ public class DataSourceConfig {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(DataSource dataSource,JpaVendorAdapter jpaVendorAdapter, JpaProperties jpaProperties){
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,JpaVendorAdapter jpaVendorAdapter, JpaProperties jpaProperties){
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
         em.setPackagesToScan("com.example.demo.domain");
@@ -52,9 +52,9 @@ public class DataSourceConfig {
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager(LocalContainerEntityManagerFactoryBean entityManagerFactoryBean){
+    public PlatformTransactionManager transactionManager(LocalContainerEntityManagerFactoryBean entityManagerFactory){
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactoryBean.getObject());
+        transactionManager.setEntityManagerFactory(entityManagerFactory.getObject());
 
         return transactionManager;
     }

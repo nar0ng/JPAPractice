@@ -32,13 +32,14 @@ public class JPATest {
         customer.setId(1L);
         customer.setFirstName("naroong");
         customer.setLastName("zi");
+        customer.setAge(25);
 
         // When
         repository.save(customer);
 
         // Then
         CustomerEntity entity = repository.findById(1L).get();
-        log.info("{} {}", entity.getFirstName(), entity.getLastName());
+        log.info("{} {}", entity.getFirstName(), entity.getLastName(), entity.getAge());
     }
 
     @Test

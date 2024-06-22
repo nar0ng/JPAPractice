@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.domain.Customer;
+import com.example.demo.mapper.CustomerMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.annotation.MapperScan;
@@ -14,7 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class MybatisTest {
 
     static final String DROP_TABLE_SQL = "DROP TABLE customers IF EXISTS";
-    static final String CREATE_TABLE_SQL = "CREATE TABLE customers (id LONG, first_name VARCHAR(255), last_name VARCHAR(255))";
+    static final String CREATE_TABLE_SQL = "CREATE TABLE customers (id SERIAL, first_name VARCHAR(255), last_name VARCHAR(255))";
     @Autowired
     JdbcTemplate jdbcTemplate;
 

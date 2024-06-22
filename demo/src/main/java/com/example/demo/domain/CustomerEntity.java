@@ -9,14 +9,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "customers")
+
 public class CustomerEntity {
     @Id
     private long id;
     private String firstName;
     private String lastName;
-    private int age;
-
-
 
 }

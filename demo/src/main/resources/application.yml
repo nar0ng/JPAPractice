@@ -4,6 +4,16 @@ spring:
     url: jdbc:h2:~/test;
     username: sa
     password:
+  jpa:
+    generate-ddl: true
+    open-in-view: false
+    show-sql: true
+
 
 mybatis:
-  mapper-locations: mapper/*.xml
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.demo.domain
+  configuration:
+    map-underscore-to-camel-case: true
+    default-fetch-size: 100
+    default-statement-timeout: 30

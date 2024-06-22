@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.domain.CustomerEntity;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,12 +33,32 @@ public class JPATest {
         customer.setFirstName("naroong");
         customer.setLastName("zi");
 
-
         // When
         repository.save(customer);
 
         // Then
         CustomerEntity entity = repository.findById(1L).get();
         log.info("{} {}", entity.getFirstName(), entity.getLastName());
+    }
+
+    @Test
+    @Transactional
+    void UPDATE_TEST() {
+        // Given
+        CustomerEntity customer = new CustomerEntity();
+        customer.setId(1L);
+        customer.setFirstName("naroong");
+        customer.setLastName("zi");
+        repository.save(customer);
+
+        // When
+        CustomerEntity entity = repository.findById(1L).get();
+        entity.setFirstName("poppi");
+        entity.setLastName("kim");
+
+
+        // Then
+        CustomerEntity updated = repository.findById(1L).get();
+        log.info("{} {}", updated.getFirstName(), entity.getLastName());
     }
 }

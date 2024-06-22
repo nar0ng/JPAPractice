@@ -32,6 +32,7 @@ public class JPATest {
         customer.setFirstName("naroong");
         customer.setLastName("zi");
 
+
         // When
         repository.save(customer);
 

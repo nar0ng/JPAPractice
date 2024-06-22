@@ -2,6 +2,7 @@ package com.example.demo.domain;
 
 import org.apache.ibatis.type.Alias;
 
+
 @Alias("customers")
 public class Customer {
     private long id;
@@ -12,15 +13,6 @@ public class Customer {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-    }
-
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
     }
 
     public long getId() {

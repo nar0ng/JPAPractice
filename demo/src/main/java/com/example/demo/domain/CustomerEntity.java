@@ -15,6 +15,7 @@ public class CustomerEntity {
     private long id;
     private String firstName;
     private String lastName;
+    private int age;
 
 
 

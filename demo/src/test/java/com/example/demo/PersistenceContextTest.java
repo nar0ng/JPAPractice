@@ -22,6 +22,11 @@ public class PersistenceContextTest {
     @Autowired
     EntityManagerFactory emf;
 
+    @BeforeEach
+    void setUp(){
+        repository.deleteAll();
+    }
+
 
 
 
@@ -42,14 +47,45 @@ public class PersistenceContextTest {
     }
 
     @Test
-    void test_save(){
-            Customer customer = new Customer();
-            customer.setId(1L);
-            customer.setFirstName("John");
-            customer.setLastName("Doe");
-            repository.save(customer);
+    void 조회_DB조회(){
+        EntityManager entityManager = emf.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
 
-            assertNotNull(repository.findById(customer.getId()).orElse(null));
+        transaction.begin();
+
+        Customer customer = new Customer(); // 비영속상태
+        customer.setId(2L);
+        customer.setFirstName("narong");
+        customer.setLastName("kim");
+
+        entityManager.persist(customer); // 비영속 -> 영속 (영속화)
+        transaction.commit(); // entityManager.flush();
+
+        entityManager.detach(customer); // 영속 -> 준영속상태
+
+        Customer selected =  entityManager.find(Customer.class, 2L);
+        log.info("{} {}", selected.getFirstName(), selected.getLastName());
+
+    }
+
+    @Test
+    void 조회_1차캐시_조회(){
+        EntityManager entityManager = emf.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        transaction.begin();
+
+        Customer customer = new Customer(); // 비영속상태
+        customer.setId(2L);
+        customer.setFirstName("narong");
+        customer.setLastName("kim");
+
+        entityManager.persist(customer); // 비영속 -> 영속 (영속화)
+        transaction.commit(); // entityManager.flush();
+
+
+        Customer selected =  entityManager.find(Customer.class, 2L);
+        log.info("{} {}", selected.getFirstName(), selected.getLastName());
 
     }
 }

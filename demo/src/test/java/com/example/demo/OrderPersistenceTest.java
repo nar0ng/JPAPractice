@@ -33,6 +33,5 @@ public class OrderPersistenceTest {
         entityManager.persist(member);
 
         transaction.commit();
-
     }
 }

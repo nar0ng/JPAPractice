@@ -88,4 +88,31 @@ public class PersistenceContextTest {
         log.info("{} {}", selected.getFirstName(), selected.getLastName());
 
     }
+
+    @Test
+    void 수정(){
+        EntityManager entityManager = emf.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        transaction.begin();
+
+        Customer customer = new Customer(); // 비영속상태
+        customer.setId(2L);
+        customer.setFirstName("narong");
+        customer.setLastName("kim");
+
+        entityManager.persist(customer); // 비영속 -> 영속 (영속화)
+        transaction.commit(); // entityManager.flush();
+
+        transaction.begin();
+        customer.setFirstName("naroong");
+        customer.setLastName("zi");
+
+        transaction.commit();
+
+
+        Customer selected =  entityManager.find(Customer.class, 2L);
+        log.info("{} {}", selected.getFirstName(), selected.getLastName());
+
+    }
 }

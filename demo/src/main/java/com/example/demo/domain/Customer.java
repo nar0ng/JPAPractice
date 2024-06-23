@@ -9,9 +9,8 @@ import org.apache.ibatis.type.Alias;
 
 @Getter
 @Setter
-// @Alias("customers")
 @Entity
-@Table(name = "customers")
+@Table(name = "customer")
 public class Customer {
     @Id
     private long id;

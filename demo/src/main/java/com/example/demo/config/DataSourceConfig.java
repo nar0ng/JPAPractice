@@ -14,14 +14,14 @@ import org.springframework.transaction.PlatformTransactionManager;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-
 @Configuration
 public class DataSourceConfig {
+
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUrl("jdbc:h2:mem:test");
+        dataSource.setUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
         dataSource.setUsername("sa");
         dataSource.setPassword("");
 
@@ -29,7 +29,7 @@ public class DataSourceConfig {
     }
 
     @Bean
-    public JpaVendorAdapter jpaVendorAdapter(JpaProperties jpaProperties){
+    public JpaVendorAdapter jpaVendorAdapter(JpaProperties jpaProperties) {
         AbstractJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
         jpaVendorAdapter.setShowSql(jpaProperties.isShowSql());
         jpaVendorAdapter.setDatabasePlatform(jpaProperties.getDatabasePlatform());
@@ -39,10 +39,10 @@ public class DataSourceConfig {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,JpaVendorAdapter jpaVendorAdapter, JpaProperties jpaProperties){
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter, JpaProperties jpaProperties) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
-        em.setPackagesToScan("com.example.demo.domain");
+        em.setPackagesToScan("com.example.demo.domain"); // Ensure this package contains your entities
         em.setJpaVendorAdapter(jpaVendorAdapter);
 
         Properties properties = new Properties();
@@ -52,11 +52,10 @@ public class DataSourceConfig {
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager(LocalContainerEntityManagerFactoryBean entityManagerFactory){
+    public PlatformTransactionManager transactionManager(LocalContainerEntityManagerFactoryBean entityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory.getObject());
 
         return transactionManager;
     }
-
 }

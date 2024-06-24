@@ -3,6 +3,9 @@ package com.example.demo.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -24,4 +27,13 @@ public class Member {
     private String address;
     @Column(name = "description")
     private String description;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "memberG") // 관리하는 주체는 memberG다.
+    private List<Order> orders = new ArrayList<>();
+
+    public void addOrder(Order order){
+        order.setMember(this);
+    }
+
 }

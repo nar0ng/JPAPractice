@@ -1,17 +1,18 @@
 package com.example.demo.domain;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
 @Builder
 @Table(name = "orders")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Order {
     @Id
     @Column(name = "id")
@@ -29,5 +30,13 @@ public class Order {
 
     @ManyToOne // 회원 하나 당 주문이 여러 개 -> 주문이 다
     @JoinColumn(name = "member_id", referencedColumnName = "id")
-    private Member member;
+    private Member memberG;
+
+    public void setMember(Member member){
+        if (Objects.nonNull(this.memberG)){
+            member.getOrders().remove(this);
+        }
+        this.memberG = member;
+        member.getOrders().add(this);
+    }
 }

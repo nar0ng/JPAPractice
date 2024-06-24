@@ -3,6 +3,7 @@ package com.example.demo.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.apache.ibatis.annotations.Many;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "order_item")
-public class OrderItem {
+public class OrderItem extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;

@@ -2,6 +2,7 @@ package com.example.demo.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,11 +11,11 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @Table(name = "orders")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order {
+public class Order extends BaseEntity {
     @Id
     @Column(name = "id")
     private String uuid;

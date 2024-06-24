@@ -3,6 +3,7 @@ package com.example.demo.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.ibatis.annotations.Many;
 
 import java.util.List;
 
@@ -19,12 +20,14 @@ public class OrderItem {
     private int quantity;
 
     // fk
-    @Column(name = "order_id")
-    private String orderId;
     @Column(name = "item_id")
     private Long itemId;
 
-    @OneToMany(mappedBy = "item") // ordeerItem 하나 당 item 여러 개
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    @OneToMany(mappedBy = "orderItem") // orderItem 하나 당 item 여러 개
     public List<Item> items;
 
 }

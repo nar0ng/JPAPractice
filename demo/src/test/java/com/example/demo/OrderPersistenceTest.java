@@ -6,10 +6,12 @@ import com.example.demo.domain.OrderStatus;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
+import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -41,6 +43,7 @@ public class OrderPersistenceTest {
     }
 
     @Test
+    @Transactional
     void 연관관계_테스트(){
         EntityManager entityManager = emf.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -56,16 +59,26 @@ public class OrderPersistenceTest {
 
         entityManager.persist(member);
 
+
         Order order = Order.builder()
                 .uuid(UUID.randomUUID().toString())
                 .orderStatus(OrderStatus.OPENED)
                 .orderDateTime(LocalDateTime.now())
                 .memo("부재 시 연락 남겨주세요")
-                .member(member)
+                .memberG(member)
                 .build();
 
         entityManager.persist(order);
 
         transaction.commit();
+
+        log.info("{}", order.getMemberG()); // 객체 그래프
+
+        entityManager.clear();
+        Order entity = entityManager.find(Order.class, order.getUuid());
+
+        log.info("{}", entity.getMemberG().getNickName());
+        log.info("{}", entity.getMemberG().getOrders().size());
+
     }
 }

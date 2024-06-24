@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -21,4 +23,8 @@ public class OrderItem {
     private String orderId;
     @Column(name = "item_id")
     private Long itemId;
+
+    @OneToMany(mappedBy = "item") // ordeerItem 하나 당 item 여러 개
+    public List<Item> items;
+
 }

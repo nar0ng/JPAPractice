@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -39,4 +40,8 @@ public class Order {
         this.memberG = member;
         member.getOrders().add(this);
     }
+    // 주문 하나 당 주문 아이템 여러 개 -> 주문 아이첸이 다
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems;
+
 }

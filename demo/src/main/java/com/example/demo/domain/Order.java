@@ -17,20 +17,21 @@ import java.util.Objects;
 @AllArgsConstructor
 public class Order extends BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private String uuid;
-    @Column(name = "memo")
+
+    @Lob
     private String memo;
+
     @Enumerated(value = EnumType.STRING)
     private OrderStatus orderStatus;
-    @Column(name = "order_datetiem", columnDefinition = "TIMESTAMP")
+
+    @Column(name = "order_datetime", columnDefinition = "TIMESTAMP")
     private LocalDateTime orderDateTime;
 
     // member_fk
-    @Column(name = "member_id", insertable = false, updatable = false)
-    private Long memberId;
-
-    @ManyToOne // 회원 하나 당 주문이 여러 개 -> 주문이 다
+    @ManyToOne(fetch = FetchType.LAZY) // 회원 하나 당 주문이 여러 개 -> 주문이 다
     @JoinColumn(name = "member_id", referencedColumnName = "id")
     private Member memberG;
 
@@ -41,8 +42,8 @@ public class Order extends BaseEntity {
         this.memberG = member;
         member.getOrders().add(this);
     }
-    // 주문 하나 당 주문 아이템 여러 개 -> 주문 아이첸이 다
-    @OneToMany(mappedBy = "order")
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems;
 
 }

@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name = "member")
 public class Member extends BaseEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "name", nullable = false, length = 30)
     private String name;
